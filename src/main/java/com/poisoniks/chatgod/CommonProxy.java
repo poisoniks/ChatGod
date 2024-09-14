@@ -1,7 +1,6 @@
 package com.poisoniks.chatgod;
 
 import com.poisoniks.chatgod.entity.ChatGodThread;
-import com.poisoniks.chatgod.service.impl.ChatManagerImpl;
 import com.poisoniks.chatgod.util.Factory;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -10,8 +9,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
-    private static final ChatManagerImpl chatListener = new ChatManagerImpl();
-
     // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
     // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
@@ -20,7 +17,7 @@ public class CommonProxy {
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(chatListener);
+        MinecraftForge.EVENT_BUS.register(Factory.getChatManager());
     }
 
     // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
