@@ -29,6 +29,9 @@ public class AIServiceImpl implements AIService {
             Your goal is to entertain the players on the server. Server specific context:
             %s
             Here is the chat history:
+            %s
+            Here is the list of players online on the server:
+            %s
             """;
     private final ChatManager chatManager;
     private final GPTConnector gptConnector;
@@ -96,12 +99,24 @@ public class AIServiceImpl implements AIService {
     }
 
     private String generatePrompt(List<ChatMessage> messages) {
-        StringBuilder prompt = new StringBuilder();
-        prompt.append(String.format(PROMPT_BASE, Config.context));
+        String history = getChatHistory(messages);
+        String players = getPlayerList();
+        return String.format(PROMPT_BASE, Config.context, history, players);
+    }
+
+    private String getChatHistory(List<ChatMessage> messages) {
+        StringBuilder history = new StringBuilder();
         for (ChatMessage message : messages) {
-            prompt.append(message.getStringTime()).append("|").append(message.getSender()).append(": ").append(message.getMessage()).append("\\n");
+            history.append(message.getStringTime()).append("|").append(message.getSender()).append(": ").append(message.getMessage()).append("\n");
         }
-        return prompt.toString();
+        return history.toString();
+    }
+
+    private String getPlayerList() {
+        StringBuilder players = new StringBuilder();
+        MinecraftServer.getServer().getConfigurationManager().playerEntityList
+            .forEach(player -> players.append(player.getDisplayName()).append("\n"));
+        return players.toString();
     }
 
     private ConnectionParameters getConnectionParameters(String prompt) {

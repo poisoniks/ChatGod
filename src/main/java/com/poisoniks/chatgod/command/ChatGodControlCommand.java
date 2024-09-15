@@ -1,7 +1,6 @@
 package com.poisoniks.chatgod.command;
 
 import com.poisoniks.chatgod.service.impl.ChatGodThreadController;
-import com.poisoniks.chatgod.util.ChatHelper;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
