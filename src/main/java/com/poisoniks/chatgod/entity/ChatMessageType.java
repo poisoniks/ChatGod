@@ -5,5 +5,6 @@ public enum ChatMessageType {
     LEAVE,
     DEATH,
     PLAYER,
-    GOD
+    GOD,
+    ACHIEVEMENT
 }

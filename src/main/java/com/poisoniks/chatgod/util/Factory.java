@@ -6,6 +6,7 @@ import com.poisoniks.chatgod.command.ChatGodControlCommand;
 import com.poisoniks.chatgod.service.AIService;
 import com.poisoniks.chatgod.service.ChatManager;
 import com.poisoniks.chatgod.service.impl.AIServiceImpl;
+import com.poisoniks.chatgod.service.impl.ChatActivityListener;
 import com.poisoniks.chatgod.service.impl.ChatGodThreadController;
 import com.poisoniks.chatgod.service.impl.ChatManagerImpl;
 
@@ -16,6 +17,7 @@ public class Factory {
     private static final ChatHelper chatHelper;
     private static final ChatGodThreadController chatGodThreadController;
     private static final ChatGodControlCommand chatGodControlCommand;
+    private static final ChatActivityListener chatActivityListener;
 
     static {
         gptConnector = new GPTConnector();
@@ -24,6 +26,7 @@ public class Factory {
         aiService = new AIServiceImpl(chatManager, gptConnector, chatHelper);
         chatGodThreadController = new ChatGodThreadController(Config.rate, aiService);
         chatGodControlCommand = new ChatGodControlCommand(chatGodThreadController);
+        chatActivityListener = new ChatActivityListener(chatManager);
     }
 
     public static AIService getAiService() {
@@ -48,5 +51,8 @@ public class Factory {
 
     public static ChatGodControlCommand getChatGodControlCommand() {
         return chatGodControlCommand;
+    }
+    public static ChatActivityListener getChatActivityListener() {
+        return chatActivityListener;
     }
 }

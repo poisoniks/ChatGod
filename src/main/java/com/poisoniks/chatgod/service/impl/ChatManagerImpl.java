@@ -2,13 +2,7 @@ package com.poisoniks.chatgod.service.impl;
 
 import com.poisoniks.chatgod.entity.ChatMessage;
 import com.poisoniks.chatgod.entity.ChatMessageType;
-import com.poisoniks.chatgod.event.ChatGodMessageEvent;
 import com.poisoniks.chatgod.service.ChatManager;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -86,34 +80,8 @@ public class ChatManagerImpl implements ChatManager {
         }
     }
 
-    @SubscribeEvent
-    public void onServerChat(ServerChatEvent event) {
-        addChatMessage(event.message, event.player.getDisplayName(), ChatMessageType.PLAYER);
-    }
-
-    @SubscribeEvent
-    public void onChatGodMessage(ChatGodMessageEvent event) {
-        addChatMessage(event.getMessage(), "ChatGod", ChatMessageType.GOD);
-    }
-
-    @SubscribeEvent
-    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        addChatMessage(event.player.getDisplayName() + " joined the game", "Server", ChatMessageType.JOIN);
-    }
-
-    @SubscribeEvent
-    public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        addChatMessage(event.player.getDisplayName() + " left the game", "Server", ChatMessageType.LEAVE);
-    }
-
-    @SubscribeEvent
-    public void onPlayerDeath(LivingDeathEvent event) {
-        if (event.entity instanceof EntityPlayer) {
-            addChatMessage(((EntityPlayer) event.entity).getDisplayName() + " died", "Server", ChatMessageType.DEATH);
-        }
-    }
-
-    private void addChatMessage(String message, String sender, ChatMessageType type) {
+    @Override
+    public void addMessage(String message, String sender, ChatMessageType type) {
         long time = System.currentTimeMillis();
 
         ChatMessage chatMessage = new ChatMessage(message, sender, time, type);

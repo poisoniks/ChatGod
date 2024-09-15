@@ -14,4 +14,5 @@ public interface ChatManager {
     long getLastMessageTime(ChatMessageType type);
     void clearChatMessages();
     void removeLatestMessagesBatch();
+    void addMessage(String message, String sender, ChatMessageType type);
 }
