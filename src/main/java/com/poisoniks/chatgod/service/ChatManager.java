@@ -12,4 +12,6 @@ public interface ChatManager {
     ChatMessage getLatestMessage(ChatMessageType type);
     long getLastMessageTime();
     long getLastMessageTime(ChatMessageType type);
+    void clearChatMessages();
+    void removeLatestMessagesBatch();
 }

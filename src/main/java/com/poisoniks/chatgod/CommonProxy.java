@@ -1,6 +1,6 @@
 package com.poisoniks.chatgod;
 
-import com.poisoniks.chatgod.service.impl.ChatGodThread;
+import com.poisoniks.chatgod.service.impl.ChatGodThreadController;
 import com.poisoniks.chatgod.util.Factory;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -25,8 +25,9 @@ public class CommonProxy {
 
     // register server commands in this event handler (Remove if not needed)
     public void serverStarting(FMLServerStartingEvent event) {
-        ChatGodThread chatGodThread = Factory.getChatGodThread();
-        Thread thread = new Thread(chatGodThread);
-        thread.start();
+        ChatGodThreadController chatGodThreadController = Factory.getChatGodThreadController();
+        chatGodThreadController.start();
+
+        event.registerServerCommand(Factory.getChatGodControlCommand());
     }
 }

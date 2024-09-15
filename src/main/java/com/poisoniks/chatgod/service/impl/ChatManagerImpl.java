@@ -70,6 +70,22 @@ public class ChatManagerImpl implements ChatManager {
                 .orElse(0);
     }
 
+    @Override
+    public void clearChatMessages() {
+        chatMessages.clear();
+    }
+
+    @Override
+    public void removeLatestMessagesBatch() {
+        List<ChatMessage> messages = chatMessages;
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            if (messages.get(i).getType() == ChatMessageType.GOD) {
+                chatMessages.subList(i, messages.size()).clear();
+                break;
+            }
+        }
+    }
+
     @SubscribeEvent
     public void onServerChat(ServerChatEvent event) {
         addChatMessage(event.message, event.player.getDisplayName(), ChatMessageType.PLAYER);

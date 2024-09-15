@@ -65,13 +65,12 @@ public class AIServiceImpl implements AIService {
 
     @Override
     public void removeLatestMessagesBatch() {
-        List<ChatMessage> messages = chatManager.getChatMessages();
-        for (int i = messages.size() - 1; i >= 0; i--) {
-            if (messages.get(i).getType() == ChatMessageType.GOD) {
-                chatManager.getChatMessages().subList(i, messages.size()).clear();
-                break;
-            }
-        }
+        chatManager.removeLatestMessagesBatch();
+    }
+
+    @Override
+    public void clearChatHistory() {
+        chatManager.clearChatMessages();
     }
 
     private boolean shouldCallAi(ChatManager chatManager) {
