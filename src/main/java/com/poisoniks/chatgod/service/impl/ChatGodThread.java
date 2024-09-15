@@ -1,7 +1,8 @@
-package com.poisoniks.chatgod.entity;
+package com.poisoniks.chatgod.service.impl;
 
 import com.poisoniks.chatgod.ChatGod;
 import com.poisoniks.chatgod.ai.FatalException;
+import com.poisoniks.chatgod.ai.InvalidRequestBodyException;
 import com.poisoniks.chatgod.service.AIService;
 
 public class ChatGodThread implements Runnable {
@@ -20,17 +21,20 @@ public class ChatGodThread implements Runnable {
         while (true) {
             try {
                 Thread.sleep(rate);
+                aiService.processChatHistory();
             } catch (InterruptedException e) {
                 break;
-            }
-            try {
-                aiService.processChatHistory();
             } catch (FatalException e) {
                 ChatGod.LOG.error("Unrecoverable error, shutting down!", e);
                 break;
+            } catch (InvalidRequestBodyException e) {
+                numOfErrors++;
+                ChatGod.LOG.error("Invalid request body, removing last messages", e);
+                aiService.removeLatestMessagesBatch();
             } catch (Exception e) {
                 numOfErrors++;
                 ChatGod.LOG.error("ChatGod broke, check the logs!", e);
+            } finally {
                 if (numOfErrors > 5) {
                     ChatGod.LOG.error("ChatGod broke too many times, shutting down!");
                     break;

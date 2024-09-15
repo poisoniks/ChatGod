@@ -1,6 +1,6 @@
 package com.poisoniks.chatgod;
 
-import com.poisoniks.chatgod.entity.ChatGodThread;
+import com.poisoniks.chatgod.service.impl.ChatGodThread;
 import com.poisoniks.chatgod.util.Factory;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;

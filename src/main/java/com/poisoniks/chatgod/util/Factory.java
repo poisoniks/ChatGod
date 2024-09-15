@@ -2,7 +2,7 @@ package com.poisoniks.chatgod.util;
 
 import com.poisoniks.chatgod.Config;
 import com.poisoniks.chatgod.ai.GPTConnector;
-import com.poisoniks.chatgod.entity.ChatGodThread;
+import com.poisoniks.chatgod.service.impl.ChatGodThread;
 import com.poisoniks.chatgod.service.AIService;
 import com.poisoniks.chatgod.service.ChatManager;
 import com.poisoniks.chatgod.service.impl.AIServiceImpl;

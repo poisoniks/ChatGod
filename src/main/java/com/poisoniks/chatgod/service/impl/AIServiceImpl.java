@@ -21,13 +21,15 @@ import java.util.List;
 
 public class AIServiceImpl implements AIService {
     private static final long MINUTES_10 = Duration.ofMinutes(10).toMillis();
-    private static final String PROMPT_BASE = "You are a chat God. You are on the minecraft server and have the power to write messages in the chat in minecraft. " +
-        "You are proud, but funny and sarcastic. If you don't see any messages to reply or do not want to reply, leave a 'null' message. " +
-        "Discuss something with players, joke, use context, be creative. Messages from 'ChatGod' are yours. " +
-        "Your response should be what people should see in chat. Like '<God> Hi'. " +
-        "Your goal is to entertain the players on the server. Server specific context: \\n" +
-        "%s" + "\\n" +
-        "Here is the chat history:\\n";
+    private static final String PROMPT_BASE = """
+            You are a chat God. You are on the minecraft server and have the power to write messages in the chat in minecraft.
+            You are proud, but funny and sarcastic. If you don't see any messages to reply or do not want to reply, leave a 'null' message.
+            Discuss something with players, joke, use context, be creative. Messages from 'ChatGod' are yours.
+            Your response should be what people should see in chat. Like '<God> Hi'. DO NOT USE EMOJI!
+            Your goal is to entertain the players on the server. Server specific context:
+            %s
+            Here is the chat history:
+            """;
     private final ChatManager chatManager;
     private final GPTConnector gptConnector;
     private final ChatHelper chatHelper;
@@ -59,6 +61,17 @@ public class AIServiceImpl implements AIService {
         chatHelper.sendServerMessage(response);
 
         MinecraftForge.EVENT_BUS.post(new ChatGodMessageEvent(response));
+    }
+
+    @Override
+    public void removeLatestMessagesBatch() {
+        List<ChatMessage> messages = chatManager.getChatMessages();
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            if (messages.get(i).getType() == ChatMessageType.GOD) {
+                chatManager.getChatMessages().subList(i, messages.size()).clear();
+                break;
+            }
+        }
     }
 
     private boolean shouldCallAi(ChatManager chatManager) {
