@@ -9,7 +9,7 @@ public class Config {
     private static final String DEFAULT_URL = "https://api.openai.com/v1/chat/completions";
     private static final String DEFAULT_MODEL = "gpt-4o-mini";
     private static final String DEFAULT_TEMPERATURE = "0.9";
-    private static final int DEFAULT_RATE = 30000;
+    private static final int DEFAULT_RATE = 240000;
     public static String context;
     public static String apiKey;
     public static String url;
