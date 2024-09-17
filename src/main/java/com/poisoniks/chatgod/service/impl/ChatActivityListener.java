@@ -45,11 +45,11 @@ public class ChatActivityListener {
         }
     }
 
-    @SubscribeEvent
-    public void onAchievement(AchievementEvent event) {
-        String achievement = AchievementHelper.getAchievementName(event.achievement.statId);
-        String achievementDescription = AchievementHelper.getAchievementDescription(event.achievement.statId + ".desc");
-        chatManager.addMessage(event.entityPlayer.getDisplayName() + " got achievement " + achievement + " (" + achievementDescription + ")",
-            "Server", ChatMessageType.ACHIEVEMENT);
-    }
+//    @SubscribeEvent
+//    public void onAchievement(AchievementEvent event) {
+//        String achievement = AchievementHelper.getAchievementName(event.achievement.statId);
+//        String achievementDescription = AchievementHelper.getAchievementDescription(event.achievement.statId + ".desc");
+//        chatManager.addMessage(event.entityPlayer.getDisplayName() + " got achievement " + achievement + " (" + achievementDescription + ")",
+//            "Server", ChatMessageType.ACHIEVEMENT);
+//    }
 }
