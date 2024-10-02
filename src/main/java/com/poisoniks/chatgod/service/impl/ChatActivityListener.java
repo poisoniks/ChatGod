@@ -3,13 +3,11 @@ package com.poisoniks.chatgod.service.impl;
 import com.poisoniks.chatgod.entity.ChatMessageType;
 import com.poisoniks.chatgod.event.ChatGodMessageEvent;
 import com.poisoniks.chatgod.service.ChatManager;
-import com.poisoniks.chatgod.util.AchievementHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.AchievementEvent;
 
 public class ChatActivityListener {
     private final ChatManager chatManager;
@@ -44,12 +42,4 @@ public class ChatActivityListener {
             chatManager.addMessage(((EntityPlayer) event.entity).getDisplayName() + " died", "Server", ChatMessageType.DEATH);
         }
     }
-
-//    @SubscribeEvent
-//    public void onAchievement(AchievementEvent event) {
-//        String achievement = AchievementHelper.getAchievementName(event.achievement.statId);
-//        String achievementDescription = AchievementHelper.getAchievementDescription(event.achievement.statId + ".desc");
-//        chatManager.addMessage(event.entityPlayer.getDisplayName() + " got achievement " + achievement + " (" + achievementDescription + ")",
-//            "Server", ChatMessageType.ACHIEVEMENT);
-//    }
 }
