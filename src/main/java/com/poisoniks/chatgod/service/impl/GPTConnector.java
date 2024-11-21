@@ -84,10 +84,6 @@ public class GPTConnector implements AIConnector {
         GPTResponse response = gson.fromJson(json, GPTResponse.class);
         String message = response.getChoices().get(0).getMessage().getContent();
 
-        if (message.equals("null")) {
-            throw new EmptyResponseException("Empty response from GPT");
-        }
-
         return gson.fromJson(sanitizeMessage(message), type);
     }
 

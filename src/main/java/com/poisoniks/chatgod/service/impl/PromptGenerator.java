@@ -10,7 +10,8 @@ public class PromptGenerator {
             """;
     private static final String SERVER_SPECIFIC_CONTEXT = "Server specific context:\n%s";
     private static final String LIST_OF_PLAYERS_ONLINE = "List of players online:\n%s";
-    private static final String CHAT_HISTORY = "Adding minecraft chat log with time stamps. Messages from 'ChatGod' are yours:\n%s";
+    private static final String CHAT_HISTORY = "Adding minecraft chat log with time stamps. Messages encapsulated in '*' are for context. " +
+        "Messages from 'ChatGod' are yours:\n%s";
 
     private final StringBuilder content;
 
