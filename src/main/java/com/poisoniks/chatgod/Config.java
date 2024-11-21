@@ -10,12 +10,14 @@ public class Config {
     private static final String DEFAULT_MODEL = "gpt-4o";
     private static final double DEFAULT_TEMPERATURE = 0.6;
     private static final int DEFAULT_RATE = 240000;
+    private static final boolean DEFAULT_ENABLE_ON_SERVER_START = false;
     public static String context;
     public static String apiKey;
     public static String url;
     public static String model;
     public static double temperature;
     public static long rate;
+    public static boolean enableOnServerStart;
 
     public static void loadConfig(File configFile) {
         Configuration config = new Configuration(configFile);
@@ -27,6 +29,7 @@ public class Config {
             model = config.get("api", "model", DEFAULT_MODEL, "Model to use for generating responses").getString();
             temperature = config.get("api", "temperature", DEFAULT_TEMPERATURE, "Temperature to use for gpt").getDouble();
             rate = config.get("api", "rate", DEFAULT_RATE, "Rate at which to send messages to gpt in milliseconds").getInt();
+            enableOnServerStart = config.get("api", "enableOnServerStart", DEFAULT_ENABLE_ON_SERVER_START, "Enable ChatGod on server start").getBoolean();
         } catch (Exception e) {
             ChatGod.LOG.error("Failed to load configuration file!", e);
         } finally {
