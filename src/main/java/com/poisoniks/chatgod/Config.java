@@ -8,13 +8,13 @@ public class Config {
     private static final String DEFAULT_API_KEY = "";
     private static final String DEFAULT_URL = "https://api.openai.com/v1/chat/completions";
     private static final String DEFAULT_MODEL = "gpt-4o";
-    private static final String DEFAULT_TEMPERATURE = "0.6";
+    private static final double DEFAULT_TEMPERATURE = 0.6;
     private static final int DEFAULT_RATE = 240000;
     public static String context;
     public static String apiKey;
     public static String url;
     public static String model;
-    public static String temperature;
+    public static double temperature;
     public static long rate;
 
     public static void loadConfig(File configFile) {
@@ -25,7 +25,7 @@ public class Config {
             apiKey = config.get("api", "apiKey", DEFAULT_API_KEY, "Api key to access gpt").getString();
             url = config.get("api", "url", DEFAULT_URL, "Url to access gpt").getString();
             model = config.get("api", "model", DEFAULT_MODEL, "Model to use for generating responses").getString();
-            temperature = config.get("api", "temperature", DEFAULT_TEMPERATURE, "Temperature to use for gpt").getString();
+            temperature = config.get("api", "temperature", DEFAULT_TEMPERATURE, "Temperature to use for gpt").getDouble();
             rate = config.get("api", "rate", DEFAULT_RATE, "Rate at which to send messages to gpt in milliseconds").getInt();
         } catch (Exception e) {
             ChatGod.LOG.error("Failed to load configuration file!", e);
@@ -50,8 +50,8 @@ public class Config {
         if (model == null || model.isEmpty()) {
             throw new IllegalArgumentException("Model cannot be empty");
         }
-        if (temperature == null || temperature.isEmpty()) {
-            throw new IllegalArgumentException("Temperature cannot be empty");
+        if (temperature < 0 || temperature > 1) {
+            throw new IllegalArgumentException("Temperature must be between 0 and 1");
         }
         if (rate <= 0) {
             throw new IllegalArgumentException("Rate must be greater than 0");

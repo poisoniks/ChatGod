@@ -3,7 +3,7 @@ package com.poisoniks.chatgod.entity;
 public class ConnectionParameters {
     private String url;
     private String apiKey;
-    private String temperature;
+    private double temperature;
     private String prompt;
     private String model;
 
@@ -23,11 +23,11 @@ public class ConnectionParameters {
         this.apiKey = apiKey;
     }
 
-    public String getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 

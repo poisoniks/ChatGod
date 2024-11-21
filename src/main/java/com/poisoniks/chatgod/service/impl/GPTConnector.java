@@ -90,7 +90,7 @@ public class GPTConnector implements AIConnector {
     private GPTRequestBody createRequest(ConnectionParameters params) {
         GPTRequestBody request = new GPTRequestBody();
         request.setModel(params.getModel());
-        request.setTemperature(0.7);
+        request.setTemperature(params.getTemperature());
         GPTRequestBody.Message message = new GPTRequestBody.Message("user", params.getPrompt());
         request.setMessages(Collections.singletonList(message));
         return request;
