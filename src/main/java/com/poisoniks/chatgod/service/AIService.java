@@ -1,7 +1,7 @@
 package com.poisoniks.chatgod.service;
 
 public interface AIService {
-    void processChatHistory();
+    void doAction();
     void removeLatestMessagesBatch();
     void clearChatHistory();
 }

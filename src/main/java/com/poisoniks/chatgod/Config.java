@@ -34,5 +34,27 @@ public class Config {
                 config.save();
             }
         }
+        validateConfig();
+    }
+
+    private static void validateConfig() {
+        if (context == null || context.isEmpty()) {
+            throw new IllegalArgumentException("Context cannot be empty");
+        }
+        if (apiKey == null || apiKey.isEmpty()) {
+            throw new IllegalArgumentException("Api key cannot be empty");
+        }
+        if (url == null || url.isEmpty()) {
+            throw new IllegalArgumentException("Url cannot be empty");
+        }
+        if (model == null || model.isEmpty()) {
+            throw new IllegalArgumentException("Model cannot be empty");
+        }
+        if (temperature == null || temperature.isEmpty()) {
+            throw new IllegalArgumentException("Temperature cannot be empty");
+        }
+        if (rate <= 0) {
+            throw new IllegalArgumentException("Rate must be greater than 0");
+        }
     }
 }

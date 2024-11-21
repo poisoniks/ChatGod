@@ -1,32 +1,40 @@
 package com.poisoniks.chatgod.util;
 
 import com.poisoniks.chatgod.Config;
-import com.poisoniks.chatgod.ai.GPTConnector;
+import com.poisoniks.chatgod.entity.DialogAction;
+import com.poisoniks.chatgod.entity.NoneAction;
+import com.poisoniks.chatgod.entity.QuizAction;
+import com.poisoniks.chatgod.service.*;
+import com.poisoniks.chatgod.service.impl.*;
 import com.poisoniks.chatgod.command.ChatGodControlCommand;
-import com.poisoniks.chatgod.service.AIService;
-import com.poisoniks.chatgod.service.ChatManager;
-import com.poisoniks.chatgod.service.impl.AIServiceImpl;
-import com.poisoniks.chatgod.service.impl.ChatActivityListener;
-import com.poisoniks.chatgod.service.impl.ChatGodThreadController;
-import com.poisoniks.chatgod.service.impl.ChatManagerImpl;
 
 public class Factory {
     private static final AIService aiService;
     private static final ChatManager chatManager;
-    private static final GPTConnector gptConnector;
+    private static final AIConnector aiConnector;
     private static final ChatHelper chatHelper;
     private static final ChatGodThreadController chatGodThreadController;
     private static final ChatGodControlCommand chatGodControlCommand;
     private static final ChatActivityListener chatActivityListener;
+    private static final ActionSelector actionSelector;
+    private static final ActionStrategy actionStrategy;
+    private static final DialogAction dialogAction;
+    private static final QuizAction quizAction;
+    private static final NoneAction noneAction;
 
     static {
-        gptConnector = new GPTConnector();
+        aiConnector = new GPTConnector();
         chatManager = new ChatManagerImpl();
         chatHelper = new ChatHelper();
-        aiService = new AIServiceImpl(chatManager, gptConnector, chatHelper);
+        chatActivityListener = new ChatActivityListener(chatManager);
+        actionSelector = new ActionSelectorImpl(chatManager);
+        actionStrategy = new ActionStrategyImpl(actionSelector);
+        dialogAction = new DialogAction(chatManager, aiConnector, chatHelper);
+        quizAction = new QuizAction(chatManager, aiConnector, chatHelper);
+        noneAction = new NoneAction(chatManager, aiConnector, chatHelper);
+        aiService = new AIServiceImpl(chatManager, actionStrategy);
         chatGodThreadController = new ChatGodThreadController(Config.rate, aiService);
         chatGodControlCommand = new ChatGodControlCommand(chatGodThreadController);
-        chatActivityListener = new ChatActivityListener(chatManager);
     }
 
     public static AIService getAiService() {
@@ -37,8 +45,8 @@ public class Factory {
         return chatManager;
     }
 
-    public static GPTConnector getGptConnector() {
-        return gptConnector;
+    public static AIConnector getAiConnector() {
+        return aiConnector;
     }
 
     public static ChatHelper getChatHelper() {
@@ -54,5 +62,20 @@ public class Factory {
     }
     public static ChatActivityListener getChatActivityListener() {
         return chatActivityListener;
+    }
+    public static ActionSelector getActionSelector() {
+        return actionSelector;
+    }
+    public static ActionStrategy getActionStrategy() {
+        return actionStrategy;
+    }
+    public static DialogAction getDialogAction() {
+        return dialogAction;
+    }
+    public static QuizAction getQuizAction() {
+        return quizAction;
+    }
+    public static NoneAction getNoneAction() {
+        return noneAction;
     }
 }

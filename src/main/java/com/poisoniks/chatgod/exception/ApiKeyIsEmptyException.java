@@ -1,4 +1,4 @@
-package com.poisoniks.chatgod.ai;
+package com.poisoniks.chatgod.exception;
 
 public class ApiKeyIsEmptyException extends RuntimeException {
     public ApiKeyIsEmptyException(String message) {

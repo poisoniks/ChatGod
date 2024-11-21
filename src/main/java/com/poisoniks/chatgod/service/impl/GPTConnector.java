@@ -1,10 +1,14 @@
-package com.poisoniks.chatgod.ai;
+package com.poisoniks.chatgod.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.poisoniks.chatgod.entity.ConnectionParameters;
-import com.poisoniks.chatgod.entity.GPTRequestBody;
-import com.poisoniks.chatgod.entity.GPTResponse;
+import com.poisoniks.chatgod.Config;
+import com.poisoniks.chatgod.exception.ApiKeyIsEmptyException;
+import com.poisoniks.chatgod.exception.EmptyResponseException;
+import com.poisoniks.chatgod.exception.FatalException;
+import com.poisoniks.chatgod.exception.InvalidRequestBodyException;
+import com.poisoniks.chatgod.entity.*;
+import com.poisoniks.chatgod.service.AIConnector;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,8 +20,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GPTConnector {
-    public String callForResponse(ConnectionParameters params) {
+public class GPTConnector implements AIConnector {
+    @Override
+    public <T extends AIResponse> T callForResponse(String prompt, Class<T> responseType) {
+        return callForResponse(getConnectionParameters(prompt), responseType);
+    }
+
+    public <T extends AIResponse> T callForResponse(ConnectionParameters params, Class<T> responseType) {
         try {
             URL obj = new URL(params.getUrl());
 
@@ -35,7 +44,7 @@ public class GPTConnector {
             }
             br.close();
 
-            return extractMessageFromJSONResponse(response.toString());
+            return extractMessageFromJSONResponse(response.toString(), responseType);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +77,7 @@ public class GPTConnector {
         return new BufferedReader(new InputStreamReader(connection.getInputStream()));
     }
 
-    public String extractMessageFromJSONResponse(String json) {
+    public <T extends AIResponse> T extractMessageFromJSONResponse(String json, Class<T> type) {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         Gson gson = builder.create();
@@ -79,7 +88,7 @@ public class GPTConnector {
             throw new EmptyResponseException("Empty response from GPT");
         }
 
-        return sanitizeMessage(message);
+        return gson.fromJson(sanitizeMessage(message), type);
     }
 
     private GPTRequestBody createRequest(ConnectionParameters params) {
@@ -107,5 +116,16 @@ public class GPTConnector {
         }
 
         return message.replaceAll("[^\\x20-\\x7E]", "");
+    }
+
+    private ConnectionParameters getConnectionParameters(String prompt) {
+        ConnectionParameters params = new ConnectionParameters();
+        params.setUrl(Config.url);
+        params.setApiKey(Config.apiKey);
+        params.setModel(Config.model);
+        params.setTemperature(Config.temperature);
+        params.setPrompt(prompt);
+
+        return params;
     }
 }

@@ -1,8 +1,8 @@
 package com.poisoniks.chatgod.service.impl;
 
 import com.poisoniks.chatgod.ChatGod;
-import com.poisoniks.chatgod.ai.FatalException;
-import com.poisoniks.chatgod.ai.InvalidRequestBodyException;
+import com.poisoniks.chatgod.exception.FatalException;
+import com.poisoniks.chatgod.exception.InvalidRequestBodyException;
 import com.poisoniks.chatgod.service.AIService;
 
 public class ChatGodThread implements Runnable {
@@ -21,7 +21,7 @@ public class ChatGodThread implements Runnable {
         while (true) {
             try {
                 Thread.sleep(rate);
-                aiService.processChatHistory();
+                aiService.doAction();
             } catch (InterruptedException e) {
                 break;
             } catch (FatalException e) {
