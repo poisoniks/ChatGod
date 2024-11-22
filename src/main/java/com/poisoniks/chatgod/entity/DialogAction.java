@@ -6,7 +6,6 @@ import com.poisoniks.chatgod.exception.EmptyResponseException;
 import com.poisoniks.chatgod.service.AIConnector;
 import com.poisoniks.chatgod.service.ChatManager;
 import com.poisoniks.chatgod.service.impl.PromptGenerator;
-import com.poisoniks.chatgod.util.ChatHelper;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
@@ -23,8 +22,8 @@ public class DialogAction extends AbstractAction {
         Use all the context provided to make your messages contain more sense, not only respond to the last message.
         """;
 
-    public DialogAction(ChatManager chatManager, AIConnector aiConnector, ChatHelper chatHelper) {
-        super(chatManager, aiConnector, chatHelper);
+    public DialogAction(ChatManager chatManager, AIConnector aiConnector) {
+        super(chatManager, aiConnector);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class DialogAction extends AbstractAction {
             return;
         }
 
-        chatHelper.sendServerMessageFromGod(response.getMessage());
+        chatManager.sendServerMessageFromGod(response.getMessage());
         MinecraftForge.EVENT_BUS.post(new ChatGodMessageEvent(response.getMessage()));
     }
 }

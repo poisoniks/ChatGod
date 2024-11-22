@@ -3,6 +3,9 @@ package com.poisoniks.chatgod.service.impl;
 import com.poisoniks.chatgod.entity.ChatMessage;
 import com.poisoniks.chatgod.entity.ChatMessageType;
 import com.poisoniks.chatgod.service.ChatManager;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -91,5 +94,19 @@ public class ChatManagerImpl implements ChatManager {
         if (chatMessages.size() > 100) {
             chatMessages.remove(0);
         }
+    }
+
+    @Override
+    public void sendServerMessage(String message) {
+        MinecraftServer server = MinecraftServer.getServer();
+        if (server != null) {
+            server.getConfigurationManager().sendChatMsg(new ChatComponentText(message));
+        }
+    }
+
+    @Override
+    public void sendServerMessageFromGod(String message) {
+        String formattedMessage = EnumChatFormatting.GOLD + "<ChatGod> " + EnumChatFormatting.RESET + message;
+        sendServerMessage(formattedMessage);
     }
 }

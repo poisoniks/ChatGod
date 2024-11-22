@@ -15,4 +15,6 @@ public interface ChatManager {
     void clearChatMessages();
     void removeLatestMessagesBatch();
     void addMessage(String message, String sender, ChatMessageType type);
+    void sendServerMessage(String message);
+    void sendServerMessageFromGod(String message);
 }

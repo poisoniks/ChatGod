@@ -12,7 +12,6 @@ public class Factory {
     private static final AIService aiService;
     private static final ChatManager chatManager;
     private static final AIConnector aiConnector;
-    private static final ChatHelper chatHelper;
     private static final ChatGodThreadController chatGodThreadController;
     private static final ChatGodControlCommand chatGodControlCommand;
     private static final ChatActivityListener chatActivityListener;
@@ -25,13 +24,12 @@ public class Factory {
     static {
         aiConnector = new GPTConnector();
         chatManager = new ChatManagerImpl();
-        chatHelper = new ChatHelper();
         chatActivityListener = new ChatActivityListener(chatManager);
         actionSelector = new ActionSelectorImpl(chatManager);
         actionStrategy = new ActionStrategyImpl(actionSelector);
-        dialogAction = new DialogAction(chatManager, aiConnector, chatHelper);
-        quizAction = new QuizAction(chatManager, aiConnector, chatHelper);
-        noneAction = new NoneAction(chatManager, aiConnector, chatHelper);
+        dialogAction = new DialogAction(chatManager, aiConnector);
+        quizAction = new QuizAction(chatManager, aiConnector);
+        noneAction = new NoneAction(chatManager, aiConnector);
         aiService = new AIServiceImpl(chatManager, actionStrategy);
         chatGodThreadController = new ChatGodThreadController(Config.rate, aiService);
         chatGodControlCommand = new ChatGodControlCommand(chatGodThreadController);
@@ -47,10 +45,6 @@ public class Factory {
 
     public static AIConnector getAiConnector() {
         return aiConnector;
-    }
-
-    public static ChatHelper getChatHelper() {
-        return chatHelper;
     }
 
     public static ChatGodThreadController getChatGodThreadController() {
