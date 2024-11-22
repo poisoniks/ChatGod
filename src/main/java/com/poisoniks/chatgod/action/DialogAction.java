@@ -1,4 +1,4 @@
-package com.poisoniks.chatgod.entity;
+package com.poisoniks.chatgod.action;
 
 import com.poisoniks.chatgod.Config;
 import com.poisoniks.chatgod.event.ChatGodMessageEvent;

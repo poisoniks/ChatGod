@@ -1,5 +1,6 @@
-package com.poisoniks.chatgod.entity;
+package com.poisoniks.chatgod.action;
 
+import com.poisoniks.chatgod.entity.ChatMessage;
 import com.poisoniks.chatgod.service.AIConnector;
 import com.poisoniks.chatgod.service.ChatManager;
 import net.minecraft.entity.player.EntityPlayer;

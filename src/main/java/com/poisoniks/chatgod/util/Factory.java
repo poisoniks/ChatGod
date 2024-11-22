@@ -1,9 +1,9 @@
 package com.poisoniks.chatgod.util;
 
 import com.poisoniks.chatgod.Config;
-import com.poisoniks.chatgod.entity.DialogAction;
-import com.poisoniks.chatgod.entity.NoneAction;
-import com.poisoniks.chatgod.entity.QuizAction;
+import com.poisoniks.chatgod.action.DialogAction;
+import com.poisoniks.chatgod.action.NoneAction;
+import com.poisoniks.chatgod.action.QuizAction;
 import com.poisoniks.chatgod.service.*;
 import com.poisoniks.chatgod.service.impl.*;
 import com.poisoniks.chatgod.command.ChatGodControlCommand;

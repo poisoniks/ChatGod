@@ -1,6 +1,6 @@
 package com.poisoniks.chatgod.service.impl;
 
-import com.poisoniks.chatgod.entity.ActionType;
+import com.poisoniks.chatgod.action.ActionType;
 import com.poisoniks.chatgod.entity.ChatMessage;
 import com.poisoniks.chatgod.entity.ChatMessageType;
 import com.poisoniks.chatgod.service.ActionSelector;
